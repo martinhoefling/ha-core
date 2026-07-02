@@ -292,12 +292,12 @@ class Telegrams:
 
     def dict_to_model(self, t: TelegramDict) -> StoredTelegram:
         """Convert a TelegramDict to a StoredTelegram model."""
-        value = t["value"]
+        value = t.get("value")
         value_numeric: float | None = None
         if isinstance(value, (int, float)):
             value_numeric = float(value)
 
-        payload: Any = t["payload"]
+        payload: Any = t.get("payload")
         if isinstance(payload, list):
             payload = tuple(payload)
 
@@ -310,11 +310,11 @@ class Telegrams:
             payload=payload,
             value=value,
             value_numeric=value_numeric,
-            dpt_main=t["dpt_main"],
-            dpt_sub=t["dpt_sub"],
-            source_name=t["source_name"],
-            destination_name=t["destination_name"],
-            data_secure=t["data_secure"],
+            dpt_main=t.get("dpt_main"),
+            dpt_sub=t.get("dpt_sub"),
+            source_name=t.get("source_name", ""),
+            destination_name=t.get("destination_name", ""),
+            data_secure=t.get("data_secure", False),
         )
 
     async def migrate_telegrams(self) -> None:
